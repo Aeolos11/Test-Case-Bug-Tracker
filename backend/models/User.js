@@ -2,28 +2,24 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt');
 
 const userSchema = mongoose.Schema({
-    name: String,
-    email: String,
-    passwordHash: String,
-    role: String,
+    name: { type: String, required: true, trim: true },
+    email: {type: String, required: true, unique: true, lowercase: true, trim: true,},
+    passwordHash: { type: String, required: true },
+    role: { type: String,  default:`tester`, trim: true, enum: [`admin`, `tester`, `developer`] },
 
 })
 
 const saltRounds = 10;
 
-userSchema.pre('save', function (next) {
+userSchema.pre('save', async function () {
     if (!this.isModified('passwordHash')) {
-        return next(); // пароль не міняли — пропускаємо хешування
+        return;
     }
 
-    bcrypt.hash(this.passwordHash, saltRounds, (err, hash) => {
-        if (err) {
-            return next(err);
-        }else {
-            this.passwordHash = hash;
-            next()
-        }
-    })
+    const hash = bcrypt.hash(this.passwordHash, saltRounds)
+    this.passwordHash = hash
+
+
 });
 
 const UserModel = mongoose.model('User', userSchema)
