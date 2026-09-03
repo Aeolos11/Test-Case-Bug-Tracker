@@ -12,6 +12,7 @@ require('./config/db')
 const health = require('./routes/health')
 const auth = require('./routes/auth');
 const project = require('./routes/project');
+const testCase = require('./routes/testCase');
 
 
 
@@ -19,6 +20,7 @@ const project = require('./routes/project');
 app.use('/api', health);
 app.use('/api', auth);
 app.use('/api', project);
+app.use('/api', testCase);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

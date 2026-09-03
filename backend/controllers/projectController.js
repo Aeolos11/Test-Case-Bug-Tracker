@@ -1,4 +1,6 @@
 const Project = require('../models/Project');
+const User = require('../models/User');
+const TestCase = require('../models/TestCase');
 
 
 
@@ -56,4 +58,67 @@ async function getProjectById(req, res) {
     }
 }
 
-module.exports = {createProject, getProjects, getProjectById};
+async function updateProject(req, res) {
+    try {
+        const project = await Project.findById(req.params.id);
+        if(project === null){
+            return res.status(404).json({ error: "Project with this id doesn`t exist" });
+        }
+
+        if(!project.owner.equals(req.user.id)){
+            return res.status(403).json({ error: "You don`t have permission to update projects" });
+        }else{
+
+            const {name, description,members} = req.body;
+            if(name !== undefined){
+                project.name = name;
+            }
+            if(description !== undefined){
+                project.description = description;
+            }
+            if(members !== undefined){
+                const existingUsers = await User.find({ _id: { $in: members } });
+                if(existingUsers.length !== members.length){
+                    return res.status(400).json({ error: "One or more member IDs do not exist" });
+                }
+                project.members = members;
+            }
+            await project.save();
+            return res.status(200).json({project});
+        }
+
+    }catch(err) {
+        if(err.name === "ValidationError") {
+            console.error("Project Updating Error:", err);
+            return res.status(400).json({ error: err.message });
+        }else{
+            console.error("Project Updating Error:", err);
+            return res.status(500).json({ error: err.message });
+        }
+    }
+
+}
+
+async function deleteProject(req, res) {
+    try {
+        const project = await Project.findById(req.params.id);
+        if(project === null){
+            return res.status(404).json({ error: "Project with this id doesn`t exist" });
+        }
+
+        if(!project.owner.equals(req.user.id)){
+            return res.status(403).json({ error: "You don`t have permission to delete projects" });
+        }else{
+            await TestCase.deleteMany({project:req.params.id});
+            await project.deleteOne()
+            return res.status(200).json({ message: "Project successfully deleted" });
+        }
+
+    }catch(err) {
+            console.error("Project Deleting Error:", err);
+            return res.status(500).json({ error: err.message });
+    }
+
+}
+
+module.exports = {createProject, getProjects, getProjectById,updateProject, deleteProject};
