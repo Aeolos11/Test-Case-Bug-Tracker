@@ -66,7 +66,7 @@ async function updateProject(req, res) {
         }
 
         if(!project.owner.equals(req.user.id)){
-            return res.status(403).json({ error: "You don`t have permission to update projects" });
+            return res.status(403).json({ error: "You don`t have permission to update this project" });
         }else{
 
             const {name, description,members} = req.body;
@@ -107,7 +107,7 @@ async function deleteProject(req, res) {
         }
 
         if(!project.owner.equals(req.user.id)){
-            return res.status(403).json({ error: "You don`t have permission to delete projects" });
+            return res.status(403).json({ error: "You don`t have permission to delete this project" });
         }else{
             await TestCase.deleteMany({project:req.params.id});
             await project.deleteOne()

@@ -1,0 +1,703 @@
+{
+  "info": {
+    "_postman_id": "c2802f87-b218-44fb-8e24-be7bc5409f49",
+    "name": "TestCaseBugTracker tests",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49055390",
+    "_collection_link": "https://go.postman.co/collection/49055390-c2802f87-b218-44fb-8e24-be7bc5409f49?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "http://localhost:3000/api/login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\": \"test@mail.com\", \"password\": \"12345\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:3000/api/register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Tester\", \"email\": \"testing@mail.com\", \"password\": \"123456\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:3000/api/current-user",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "",
+            "value": "",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/current-user",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "current-user"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:3000/api/create-project",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{json_web_token_04ee}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Мій другий проєкт\", \"description\": \"тест\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/create-project",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "create-project"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:3000/api/create-project  Creating without name",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{json_web_token_04ee}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Мій другий проєкт\", \"description\": \"тест\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/create-project",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "create-project"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:3000/api/projects",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"GET /api/projects returns 200\", function() {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"isResponseArray\", function(){\r",
+              "    const res = pm.response.json()\r",
+              "    pm.expect(Array.isArray(res) ).to.be.true\r",
+              "})"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{supabase_service_role_api_key_0t1o}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/projects",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "projects"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:3000/api/projects/6a8c9ff07c825b854f9c1c80/create-testcase",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_1c8d}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \r\n  \"description\": \"Verify user can log in with correct email and password\",\r\n  \"steps\": [\r\n    { \"stepNum\": 1, \"action\": \"Open login page\", \"expectedResult\": \"Login form is displayed\" },\r\n    { \"stepNum\": 2, \"action\": \"Enter valid email and password\", \"expectedResult\": \"Fields accept input\" },\r\n    { \"stepNum\": 3, \"action\": \"Click Submit\", \"expectedResult\": \"User is redirected to dashboard\" }\r\n  ],\r\n  \"expectedResult\": \"User successfully logs in and sees dashboard\",\r\n  \"priority\": \"high\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/projects/6a8c9ff07c825b854f9c1c80/create-testcase",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "projects",
+            "6a8c9ff07c825b854f9c1c80",
+            "create-testcase"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:3000/api/projects/6a8c9ff07c825b854f9c1c80/create-testcase without title",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_1c8d}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \r\n  \"description\": \"Verify user can log in with correct email and password\",\r\n  \"steps\": [\r\n    { \"stepNum\": 1, \"action\": \"Open login page\", \"expectedResult\": \"Login form is displayed\" },\r\n    { \"stepNum\": 2, \"action\": \"Enter valid email and password\", \"expectedResult\": \"Fields accept input\" },\r\n    { \"stepNum\": 3, \"action\": \"Click Submit\", \"expectedResult\": \"User is redirected to dashboard\" }\r\n  ],\r\n  \"expectedResult\": \"User successfully logs in and sees dashboard\",\r\n  \"priority\": \"high\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/projects/6a8c9ff07c825b854f9c1c80/create-testcase",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "projects",
+            "6a8c9ff07c825b854f9c1c80",
+            "create-testcase"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:3000/api/projects/6a8c9ff07c825b854f9c1c80/testcases",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{json_web_token_10ly}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/projects/6a8c9ff07c825b854f9c1c80/testcases",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "projects",
+            "6a8c9ff07c825b854f9c1c80",
+            "testcases"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:3000/api/testcases/6a90994cfc047586f7847e94",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{json_web_token_104i}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/testcases/6a90994cfc047586f7847e94",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "testcases",
+            "6a90994cfc047586f7847e94"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:3000/api/testcases/6a90994cfc047586f7847e93",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{bearer_token_0nah}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"status\": \"passed\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/testcases/6a90994cfc047586f7847e93",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "testcases",
+            "6a90994cfc047586f7847e93"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:3000/api/testcases/6a90994cfc047586f7847e93",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{supabase_service_role_api_key_0v24}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/testcases/6a90994cfc047586f7847e93",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "testcases",
+            "6a90994cfc047586f7847e93"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:3000/api/testcases/6a90994cfc047586f7847e93 deletion by not an owner",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{supabase_service_role_api_key_0v24}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/testcases/6a90994cfc047586f7847e93",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "testcases",
+            "6a90994cfc047586f7847e93"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:3000/api/projects/6a90a6f1c0278957467544dc",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{json_web_token_0y6d}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"name\": \"Нова назва\", \"description\": \"Новий опис\" }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/projects/6a90a6f1c0278957467544dc",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "projects",
+            "6a90a6f1c0278957467544dc"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:3000/api/projects/6a8c9ff07c825b854f9c1c80",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{json_web_token_0y6d}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/projects/6a8c9ff07c825b854f9c1c80",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "projects",
+            "6a8c9ff07c825b854f9c1c80"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:3000/api/projects/6a8c9ff07c825b854f9c1c80 Copy",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{json_web_token_0y6d}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/projects/6a8c9ff07c825b854f9c1c80",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "projects",
+            "6a8c9ff07c825b854f9c1c80"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:3000/api/login(wrong pass)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\": \"test@mail.com\", \"password\": \"1234\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:3000/api/register - register with existing email",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Tester\", \"email\": \"test1@mail.com\", \"password\": \"123456\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "json_web_token_04ee",
+      "secret": true
+    },
+    {
+      "key": "bearer_token_1c8d",
+      "secret": true
+    },
+    {
+      "key": "supabase_service_role_api_key_0t1o",
+      "secret": true
+    },
+    {
+      "key": "bearer_token_0sns",
+      "secret": true
+    },
+    {
+      "key": "supabase_service_role_api_key_04ee",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_10ly",
+      "secret": true
+    },
+    {
+      "key": "bearer_token_119q",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_104i",
+      "secret": true
+    },
+    {
+      "key": "bearer_token_15fk",
+      "secret": true
+    },
+    {
+      "key": "bearer_token_0nah",
+      "secret": true
+    },
+    {
+      "key": "supabase_service_role_api_key_0kju",
+      "secret": true
+    },
+    {
+      "key": "supabase_service_role_api_key_0v24",
+      "secret": true
+    },
+    {
+      "key": "bearer_token_05k2",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_0y6d",
+      "secret": true
+    },
+    {
+      "key": "bearer_token_0elc",
+      "secret": true
+    }
+  ]
+}
