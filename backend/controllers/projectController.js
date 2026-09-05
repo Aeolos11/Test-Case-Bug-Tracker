@@ -42,11 +42,11 @@ async function getProjects(req, res) {
 
 async function getProjectById(req, res) {
     try {
-        const project = await Project.findById(req.params.id);
+        const project = await Project.findById(req.params.id).populate("members", "email");
         if(project === null){
             return res.status(404).json({ error: "This id doesn`t exist" });
         }
-        if(project.owner.equals(req.user.id) || project.members.some(memberId => memberId.equals(req.user.id))){
+        if(project.owner.equals(req.user.id) || project.members.some(memberId => memberId._id.equals(req.user.id))){
             return res.status(200).json(project);
         }else{
             return res.status(403).json({ error: "You don`t have permission to interact with this project" });
@@ -77,11 +77,12 @@ async function updateProject(req, res) {
                 project.description = description;
             }
             if(members !== undefined){
-                const existingUsers = await User.find({ _id: { $in: members } });
+                const existingUsers = await User.find({ email: { $in: members } });
+                const ids = existingUsers.map((user) => user._id)
                 if(existingUsers.length !== members.length){
-                    return res.status(400).json({ error: "One or more member IDs do not exist" });
+                    return res.status(400).json({ error: "One or more member emails do not exist" });
                 }
-                project.members = members;
+                project.members = ids;
             }
             await project.save();
             return res.status(200).json({project});
